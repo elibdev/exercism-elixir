@@ -3,16 +3,10 @@ defmodule RationalNumbers do
   Documentation for `RationalNumbers`.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> RationalNumbers.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def calculate("abs", r) do
+    Enum.map(r, fn n -> abs(n) end)
+  end
+  def calculate(_op, r) do
+    r
   end
 end
