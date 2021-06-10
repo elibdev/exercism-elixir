@@ -6,6 +6,7 @@ defmodule RationalNumbers do
   def calculate("abs", r) do
     Enum.map(r, fn n -> abs(n) end)
   end
+
   def calculate(_op, r) do
     r
   end

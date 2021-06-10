@@ -5,17 +5,35 @@ defmodule RationalNumbersTest do
         |> File.read!()
         |> Jason.decode!()
 
-  for case <- @data["cases"] do
-    describe case["description"] do
-      # run the tests that don't contain more cases
-      # TODO: add logic to iterate over those tests as well
-      for case <- case["cases"], !Map.has_key?(case, "cases") && case["property"] == "abs" do
-        test case["description"] do
-          input = unquote(case["input"]["r"])
-          expected = unquote(case["expected"])
-          assert RationalNumbers.calculate("abs", input) == expected
+  for test_case <- @data["cases"] do
+    case test_case do
+      %{"cases" => test_cases} = test_case ->
+        describe test_case["description"] <> " >" do
+          for test_case <- test_cases do
+            case test_case do
+              %{"cases" => test_cases} = test_case ->
+                group_desc = test_case["description"]
+
+                for test_case <- test_cases do
+                  test group_desc <> " > " <> test_case["description"] do
+                    assert false
+                  end
+                end
+
+              %{"property" => "abs"} = test_case ->
+                test test_case["description"] do
+                  input = unquote(test_case["input"]["r"])
+                  expected = unquote(test_case["expected"])
+                  assert RationalNumbers.calculate("abs", input) == expected
+                end
+
+              _ ->
+                test test_case["description"] do
+                  assert false
+                end
+            end
+          end
         end
-      end
     end
   end
 end
