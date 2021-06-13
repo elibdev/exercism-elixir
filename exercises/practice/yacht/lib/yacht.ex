@@ -3,15 +3,6 @@ defmodule Yacht do
   Documentation for `Yacht`.
   """
 
-  def score("yacht", dice) do
-    unique_dice = MapSet.size(MapSet.new(dice))
-
-    case unique_dice do
-      1 -> 50
-      _ -> 0
-    end
-  end
-
   def score("ones", dice), do: score(1, dice)
   def score("twos", dice), do: score(2, dice)
   def score("threes", dice), do: score(3, dice)
@@ -49,6 +40,35 @@ defmodule Yacht do
 
       _ ->
         0
+    end
+  end
+
+  def score("little straight", dice) do
+    if MapSet.new(dice) == MapSet.new([1, 2, 3, 4, 5]) do
+      30
+    else
+      0
+    end
+  end
+
+  def score("big straight", dice) do
+    if MapSet.new(dice) == MapSet.new([2, 3, 4, 5, 6]) do
+      30
+    else
+      0
+    end
+  end
+
+  def score("choice", dice) do
+    Enum.sum(dice)
+  end
+
+  def score("yacht", dice) do
+    unique_dice = MapSet.size(MapSet.new(dice))
+
+    case unique_dice do
+      1 -> 50
+      _ -> 0
     end
   end
 
